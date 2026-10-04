@@ -1,0 +1,9 @@
+=== 3/3 Événement fictif E13 ===
+Appel du modèle qwen2.5:7b (11933 caractères de prompt). Sur une machine sans GPU, comptez 1 à 5 minutes la première fois…
+Réponse en 448 s : 4142 jetons lus, 712 jetons écrits (3.2 jetons/s).
+
+Brouillon écrit : _repetition/E13_exemple_fictif.brouillon.json
+
+Aucun problème de forme détecté. Relisez le fond : qui décide, livré ou validé, proposition ou décision.
+
+Ensuite : ouvrez index.html, onglet Mise à jour, collez le contenu du brouillon dans le formulaire (ou dans updates.js), corrigez, enregistrez, téléchargez updates.js.

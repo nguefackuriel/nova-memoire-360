@@ -1,0 +1,22 @@
+From: Julien Moreau <julien.moreau@boreal.example>
+To: nicolas.perron@demo.example, amelie.fortin@demo.example
+Cc: melissa.gagnon@demo.example, olivier.cote@demo.example
+Date: Thu, 01 Oct 2026 08:40:00 -0400
+Subject: NOVA - build 2026.10.01 et confirmation du 22 octobre
+Message-ID: <e13_exemple_fictif_repetition@nova.demo.local>
+Content-Type: text/plain; charset="utf-8"
+
+Bonjour,
+
+La build 2026.10.01 est déployée en validation ce matin. Elle inclut le correctif ACC-303 : nos tests clavier passent, le bouton Enregistrer est atteint avec Tab.
+
+Le runbook final, avec la procédure de retour arrière, vous sera envoyé vendredi.
+
+De notre côté, les conditions accessibilité et exploitation sont donc réglées. Nous proposons de confirmer le 22 octobre comme date ferme de mise en production.
+
+Amélie, le jalon 3 est livré : merci de libérer INV-003 au complet.
+
+Julien
+Boréal Numérique
+
+(EXEMPLE FICTIF POUR LA RÉPÉTITION. Ce courriel ne fait pas partie du dossier du défi.)

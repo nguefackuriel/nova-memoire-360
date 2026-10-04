@@ -1,0 +1,9 @@
+=== 1/3 Ollama répond ? ===
+{"models":[{"name":"gemma3:1b","model":"gemma3:1b","modified_at":"2026-09-28T11:32:59.48053567-04:00","size":815319791,"digest":"8648f39daa8fbf5b18c7b4e6a8fb4990c692751d49917417b8842ca5758e7ffc","details":{"parent_model":"","format":"gguf","family":"gemma3","families":["gemma3"],"parameter_size":"999.89M","quantization_level":"Q4_K_M"},"capabilities":["completion"]},{"name":"qwen2.5:3b","model":"q
+=== 2/3 Test de vitesse (qwen2.5:7b) ===
+Test de vitesse avec qwen2.5:7b (8102 caractères de contexte)…
+Durée totale : 169 s (chargement du modèle inclus : 20 s).
+Lecture du prompt : 2888 jetons en 136 s (21 jetons/s).
+Écriture : 60 jetons en 13 s (4.6 jetons/s).
+Estimation pour une fiche d'événement complète (environ 2 200 jetons lus, 900 écrits) : 5.0 minutes.
+Réponse du modèle : Le projet NOVA est actuellement en phase de mise en production prévue pour le 22 octobre 2026, après validation des trois conditions requises (sécurité, accessibilité, runbook), mais rencontre des retards liés aux validations incomplè

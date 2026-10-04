@@ -1,0 +1,106 @@
+# -*- coding: utf-8 -*-
+"""Q01 à Q05. Chaque preuve : src (id de la source), loc (repère lisible), lines (lignes dans le texte affiché),
+quote (citation mot pour mot), note (pourquoi c'est important)."""
+
+QUESTIONS_A = [
+ {
+  "id": "Q01",
+  "question": "Quelle est la date de mise en production actuellement approuvée, et avec quelle réserve?",
+  "answer": "Le 22 octobre 2026. Le comité de direction l'a approuvée le 10 septembre 2026. La réserve : cette date dépend de trois validations fixées par le comité du 26 septembre. 1) La sécurité accepte SEC-210. 2) Le ticket ACC-303 est fermé. 3) Le runbook est approuvé, avec la procédure de retour arrière. Tant que ce n'est pas fait, le 22 n'est pas un « go garanti ».",
+  "nuance": [
+    "Au 30 septembre, aucune des trois conditions n'est remplie. SEC-210 est EN VALIDATION (re-test prévu, sans date). ACC-303 est OUVERT (correctif promis pour la « prochaine build »). OPS-601 est OUVERT (le 29 septembre, Olivier n'avait toujours pas reçu la version finale du runbook).",
+    "Le plan projet v3 du 12 septembre affiche encore le 15 octobre (cellules E7 et F7, note « Cible de planification »). Il est périmé : il n'a pas intégré la décision du 10 septembre. Nicolas l'a dit sur Teams le 15 septembre, et la note de transition demande de corriger tous les plans.",
+    "La charte v1 et le plan v2 (15 octobre) sont des documents anciens. La charte dit elle-même qu'elle n'est pas mise à jour après les décisions de comité.",
+  ],
+  "evidence": [
+    {"src": "M04_Transcript_Comite_direction_10sept", "loc": "lignes 17 à 23 (15:22 à 15:25)", "lines": [17,23], "quote": "La date cible de mise en production NOVA est déplacée du 15 octobre au **22 octobre 2026**. […] Donc **approuvé**. Le 22 devient la date officielle.", "note": "La décision et son approbation (c'est le comité de direction qui décide)."},
+    {"src": "M06_Transcript_Comite_26sept", "loc": "lignes 11 à 16 (10:09 à 10:15)", "lines": [11,16], "quote": "Donc trois conditions concrètes : validation sécurité de SEC-210, fermeture de ACC-303 et approbation du runbook incluant rollback. […] c'est conditionnel à ces trois éléments.", "note": "La réserve : les trois conditions de go-live."},
+    {"src": "E09_Rappel_mise_en_production", "loc": "courriel du 27 sept. 17:02, lignes 9 à 13", "lines": [9,13], "quote": "la cible approuvée demeure le 22 octobre. Cette date est toutefois conditionnelle aux validations restantes […] ne pas communiquer le 22 comme un go garanti", "note": "Confirmation écrite du chargé de projet (autre source que le comité)."},
+    {"src": "M04_Transcript_Comite_direction_10sept", "loc": "ligne 24 (15:27)", "lines": [24,24], "quote": "le 22 n'est pas un go automatique. Les critères de sécurité, accessibilité et exploitation restent.", "note": "La réserve existait déjà le jour de l'approbation."},
+    {"src": "Plan_Projet_NOVA_v3_12sept", "loc": "feuille « Plan projet », cellules E7 et F7 = 2026-10-15, G7 = « Cible de planification »", "lines": [8,8], "quote": "A7=P-06 | B7=Mise en production | … | E7=2026-10-15 | F7=2026-10-15 | G7=Cible de planification", "note": "CONTRADICTION : plan périmé (voir C-01)."},
+    {"src": "Teams_15sept_ProjetNOVA", "loc": "ligne 5 (09:18)", "lines": [5,5], "quote": "le comité a approuvé le 22 octobre le 10 septembre. Le plan projet n'a visiblement pas encore été corrigé.", "note": "Explique pourquoi le plan v3 est faux."},
+  ],
+  "cross": "Transcriptions des comités (M04, M06), courriel du chargé de projet (E09) et clavardage Teams. Le plan v3 est écarté : le comité a plus de poids, et la décision est plus récente que le contenu du plan.",
+  "uncertainty": "Aucune date de go/no-go n'est documentée. On ne connaît pas non plus la date du re-test SEC-210, de la « prochaine build » (ACC-303) ni de la livraison du runbook final.",
+ },
+ {
+  "id": "Q02",
+  "question": "Pourquoi la date a-t-elle changé, et quel est l'état actuel de la cause initiale?",
+  "answer": "La date a changé à cause du connecteur interne (ticket INT-101). En septembre, les recherches renvoyaient des erreurs 401 : le jeton de service avait expiré après un changement de secret, puis il restait des erreurs par moments. Boréal a perdu plus de temps que prévu et a recommandé le 22 octobre pour stabiliser le connecteur, refaire les tests intégrés et garder une marge pour les anomalies bloquantes. La sécurité et l'accessibilité préféraient aussi ne pas raccourcir leurs tests. Aujourd'hui, cette cause est RÉGLÉE : correctif déployé le 17 septembre (rotation du secret et correction du renouvellement du jeton), 120 recherches sur 120 réussies, ticket fermé et validé par Marc Gervais le 17 septembre. Les logs montrent une réponse 200 OK ce jour-là.",
+  "nuance": [
+    "Le problème est réglé, mais la date n'est pas revenue au 15 octobre. Le 22 octobre reste la cible approuvée (suivi du 18 sept., comité du 26 sept., courriel E09 du 27 sept.). Elle dépend maintenant de trois autres sujets : sécurité, accessibilité, exploitation.",
+    "Le registre de risques du 29 septembre affiche encore R-01 « Retard du connecteur interne » comme « Ouvert », avec le commentaire « Suivi au 9 septembre 2026 ». Cette ligne est périmée : le ticket, le courriel E12 et le suivi du 18 septembre disent le contraire (voir C-02).",
+    "Les tickets DATA-401 (doublons, fermé le 9 sept.) et PERF-501 (lenteur, fermé le 7 sept.) ne sont pas la cause du report. Camille a confirmé le 10 sept. que la migration ne bloquait pas le 15.",
+  ],
+  "evidence": [
+    {"src": "E05_Retard_integration", "loc": "courriel du 8 sept. 11:16, lignes 9 à 13", "lines": [9,13], "quote": "Le problème du connecteur interne nous a fait perdre davantage de temps que prévu. […] très peu de marge pour la stabilisation. Notre recommandation est de déplacer la mise en production au **22 octobre**.", "note": "La cause et la proposition."},
+    {"src": "M04_Transcript_Comite_direction_10sept", "loc": "lignes 6 à 10 (15:02 à 15:08)", "lines": [6,10], "quote": "Stabilisation du connecteur, reprise des tests intégrés et une marge pour corriger les anomalies bloquantes. […] Je confirme que le connecteur est le chemin critique en ce moment.", "note": "Les raisons retenues par le comité."},
+    {"src": "INT-101", "loc": "commentaires des 5, 8 et 17 sept. (lignes 14 à 20)", "lines": [14,20], "quote": "On voit des 401 sur l'appel vers le service interne. Le jeton de service semble expiré […] 17 sept 14:23 - Boréal : Correctif déployé. 120 recherches rejouées, 120 réponses valides. 17 sept 16:10 - Marc : Validé côté intégration. Je ferme.", "note": "Le problème et sa fermeture."},
+    {"src": "E12_Resolution_integration", "loc": "courriel du 17 sept. 16:22, lignes 9 à 11", "lines": [9,11], "quote": "120/120 recherches ont retourné les résultats attendus. INT-101 est fermé. Le problème d'intégration qui avait déclenché le risque d'échéancier est considéré résolu.", "note": "Confirmation côté client (autre source que le ticket)."},
+    {"src": "INT-101_extrait_logs", "loc": "lignes 1 à 3", "lines": [1,3], "quote": "2026-09-05T11:15:03Z … -> 401 Unauthorized … exp=2026-09-04T23:00:00Z … 2026-09-17T14:20:11Z … -> 200 OK 187ms", "note": "Preuve technique avant et après."},
+    {"src": "M05_CR_Suivi_18sept", "loc": "ligne 6", "lines": [6,6], "quote": "INT-101 : le connecteur interne a été validé et fermé le 17 septembre.", "note": "État d'ensemble au 18 sept."},
+    {"src": "Registre_Risques_29sept", "loc": "feuille « Risques », ligne R-01 : F2 = « Ouvert », H2 = « Suivi au 9 septembre 2026 »", "lines": [3,3], "quote": "A2=R-01 | B2=Retard du connecteur interne | … | F2=Ouvert | … | H2=Suivi au 9 septembre 2026", "note": "CONTRADICTION : registre périmé sur R-01 (voir C-02)."},
+  ],
+  "cross": "Courriel du fournisseur (E05), transcription du comité (M04), ticket INT-101, courriel de validation client (E12) et logs. Le registre de risques (R-01) est écarté parce que les faits qu'il décrit sont plus anciens.",
+  "uncertainty": "Le registre du 29 septembre n'a pas été corrigé sur R-01. Personne n'a décidé de revenir au 15 octobre.",
+ },
+ {
+  "id": "Q03",
+  "question": "Qui a approuvé le changement et quand? Distinguez proposition et approbation.",
+  "answer": "La PROPOSITION vient de Julien Moreau (Boréal Numérique), par courriel le 8 septembre 2026 à 11:16. Il précise lui-même que c'est une proposition du fournisseur et que la décision revient au client. Il la répète au comité le 10 septembre à 15:02. L'APPROBATION vient du comité de direction NOVA, le 10 septembre 2026 entre 15:22 et 15:25. Élodie Caron (alors chargée de projet) formule la décision. Personne ne s'oppose : Sophie Lambert, Marc Gervais et Olivier Côté disent « Non » à la question « quelqu'un s'oppose? », Nicolas Perron dit « D'accord ». Élodie conclut : « approuvé », le 22 octobre devient la date officielle.",
+  "nuance": [
+    "La proposition vient du fournisseur, l'approbation vient du client. Il ne faut pas dire que Boréal a approuvé.",
+    "Les rappels qui suivent ne sont pas l'approbation, seulement des confirmations : Teams du 15 sept. (Nicolas), note de transition du 16 sept., suivi du 18 sept., comité du 26 sept., courriel E09 du 27 sept.",
+    "Le comité du 26 septembre n'a pas ré-approuvé la date. Il a précisé les conditions de go-live. Nicolas y annonce un compte rendu, mais ce compte rendu n'est pas dans le dossier (on a seulement la transcription).",
+  ],
+  "evidence": [
+    {"src": "E05_Retard_integration", "loc": "courriel du 8 sept. 11:16, ligne 13", "lines": [11,13], "quote": "À ce stade, il s'agit d'une proposition de notre part. À vous de confirmer la décision de gouvernance.", "note": "La proposition (fournisseur)."},
+    {"src": "M04_Transcript_Comite_direction_10sept", "loc": "ligne 6 (15:02)", "lines": [6,6], "quote": "Comme écrit mardi […] Notre recommandation est de déplacer le lancement du 15 au 22 octobre.", "note": "Proposition répétée en comité."},
+    {"src": "M04_Transcript_Comite_direction_10sept", "loc": "lignes 17 à 23 (15:22 à 15:25)", "lines": [17,23], "quote": "Je vais formuler la décision. […] Est-ce que quelqu'un s'oppose? [silence] Sophie : Non. Marc : Non. Olivier : Non. Nicolas : D'accord. Élodie : Donc **approuvé**.", "note": "L'approbation (comité de direction, 10 sept. 15:25)."},
+    {"src": "Teams_15sept_ProjetNOVA", "loc": "ligne 5 (09:18)", "lines": [5,5], "quote": "le comité a approuvé le 22 octobre le 10 septembre.", "note": "Autre source qui confirme la date d'approbation."},
+    {"src": "Note_transition_Elodie_16sept", "loc": "ligne 7", "lines": [7,7], "quote": "faire mettre à jour la date dans tous les plans (le comité a approuvé le 22 octobre)", "note": "Confirmation par la chargée sortante."},
+  ],
+  "cross": "Courriel du fournisseur (E05), transcription du comité (M04), Teams du 15 sept. et note de transition.",
+  "uncertainty": "Il n'y a pas de compte rendu officiel du comité du 10 septembre dans le dossier. La transcription en tient lieu.",
+ },
+ {
+  "id": "Q04",
+  "question": "Qui est responsable du projet et depuis quand?",
+  "answer": "Nicolas Perron est chargé de projet NOVA depuis le 16 septembre 2026. Élodie Caron l'a annoncé par courriel ce jour-là à 8 h 35, et sa note de transition et un rappel Teams (8 h 45) le confirment. Avant lui, Élodie Caron a été chargée de projet du 7 juillet (charte v1, compte rendu de démarrage, courriel E01) au 15 septembre 2026.",
+  "nuance": [
+    "La charte v1 nomme encore Élodie. C'est normal : elle n'est pas mise à jour après les décisions (elle le dit à la ligne 20). Le plan v2 donne aussi la mise en production (P-06) à Élodie.",
+    "Le plan v3, daté du 12 septembre, donne déjà P-06 à Nicolas Perron (cellule D7), soit quatre jours avant l'annonce. La transition était « comme convenu » (E06), mais la date officielle reste le 16 septembre.",
+    "Élodie reste disponible « quelques jours » pour le transfert. Nicolas reprend aussi le comité du vendredi (Teams 16 sept., 8 h 47).",
+  ],
+  "evidence": [
+    {"src": "E06_Transition_charge_projet", "loc": "courriel du 16 sept. 08:35, ligne 9", "lines": [9,11], "quote": "Comme convenu, Nicolas Perron prend officiellement la charge du projet NOVA à compter d'aujourd'hui, 16 septembre.", "note": "L'annonce officielle."},
+    {"src": "Note_transition_Elodie_16sept", "loc": "ligne 4", "lines": [4,4], "quote": "À compter d'aujourd'hui, Nicolas Perron reprend le rôle de chargé de projet NOVA.", "note": "Document de transition (autre source)."},
+    {"src": "Teams_16sept_Transition", "loc": "lignes 4 et 5 (08:45, 08:47)", "lines": [4,5], "quote": "à partir d'aujourd'hui, Nicolas reprend officiellement NOVA. […] Je reprends aussi le comité du vendredi.", "note": "Troisième source."},
+    {"src": "Charte_Projet_NOVA_v1", "loc": "lignes 4 et 20", "lines": [4,4], "quote": "Chargée de projet : Élodie Caron […] Cette charte […] n'est pas mise à jour automatiquement après chaque décision de comité.", "note": "Responsable de départ (7 juillet). Document non mis à jour."},
+    {"src": "Plan_Projet_NOVA_v3_12sept", "loc": "cellule D7 = « Nicolas Perron » (plan daté du 12 sept.)", "lines": [8,8], "quote": "A7=P-06 | B7=Mise en production | … | D7=Nicolas Perron", "note": "Petit écart de date (12 contre 16 sept.)."},
+  ],
+  "cross": "Courriel (E06), note de transition et Teams. La charte et le plan v2 sont anciens.",
+  "uncertainty": "On ne sait pas à quelle date la transition a été « convenue ». Le plan v3 du 12 sept. l'anticipe.",
+ },
+ {
+  "id": "Q05",
+  "question": "Quel est le montant contractuel autorisé et comment se calcule-t-il?",
+  "answer": "204 000 $ CAD, hors taxes. Calcul : 180 000 $ (montant maximal initial du contrat avec Boréal, période du 7 juillet au 31 octobre 2026; même chiffre dans la charte et le compte rendu de démarrage) + 24 000 $ (demande de changement CR-01 « rapports avancés », APPROUVÉE par le comité de projet le 14 août 2026). CR-04 (18 000 $, optimisation mobile) est un BROUILLON sans approbation : il ne compte pas.",
+  "nuance": [
+    "Où en est-on au 30 sept. : facturé 186 000 $ (INV-001 60 000 $ payée, INV-002 72 000 $ payée, INV-003 54 000 $ en validation). Payé : 132 000 $. Sur ces 186 000 $, 18 000 $ (la ligne CR-04 de INV-003) ne sont pas autorisés.",
+    "Facturation valable (sans la ligne CR-04) : 168 000 $. Il reste donc 36 000 $ sous le plafond de 204 000 $. Si INV-003 était payée telle quelle, 186 000 $ resteraient sous 204 000 $. C'est sans doute ce que veut dire le « Budget VERT, sous le plafond contractuel » du rapport du 21 sept. Mais ce vert cache une ligne non autorisée.",
+    "INV-778 (41 000 $, projet ORION, 20 sept.) concerne un autre projet. Elle ne compte pas dans NOVA.",
+    "Le contrat demande une demande de changement écrite et approuvée avant tout travail hors portée, et avant de le facturer.",
+  ],
+  "evidence": [
+    {"src": "CONTRAT_Boreal_NOVA", "loc": "page 1, tableau « Valeur contractuelle », ligne « Montant maximal initial » = 180 000 $; ligne « Période »", "lines": [9,16], "quote": "Montant maximal initial 180 000 $ … Devise CAD … Période 7 juillet au 31 octobre 2026", "note": "La base du contrat."},
+    {"src": "CR-01_Rapports_avances_APPROUVE", "loc": "page 1, tableau « Impact financier » : Montant 24 000 $, Décision APPROUVÉE, Date 14 août 2026, Autorité Comité de projet", "lines": [5,12], "quote": "Montant 24 000 $ / Décision APPROUVÉE / Date de décision 14 août 2026 / Autorité Comité de projet", "note": "Changement approuvé : il s'ajoute."},
+    {"src": "CR-04_Optimisation_mobile_BROUILLON", "loc": "page 1, « Statut : BROUILLON - APPROBATION REQUISE »; note : aucun numéro d'approbation ni signature", "lines": [6,15], "quote": "Montant estimé 18 000 $ / Statut BROUILLON - APPROBATION REQUISE […] Aucun numéro d'approbation ni signature de comité n'est présent", "note": "Ne s'ajoute PAS."},
+    {"src": "Charte_Projet_NOVA_v1", "loc": "ligne 6", "lines": [6,6], "quote": "Budget initial : 180 000 $ CAD", "note": "Deuxième source pour le 180 000 $."},
+    {"src": "CONTRAT_Boreal_NOVA", "loc": "page 1, section « Gestion des changements »", "lines": [22,24], "quote": "Tout travail hors portée doit faire l'objet d'une demande de changement écrite et approuvée avant exécution et facturation.", "note": "La règle : seuls les changements approuvés s'ajoutent."},
+    {"src": "INV-002", "loc": "page 1, ligne « Rapports avancés - CR-01 » 24 000 $, Statut Payée", "lines": [14,23], "quote": "Statut Payée … Développement phase 1 - jalon 2 48 000 $ … Rapports avancés - CR-01 24 000 $ … TOTAL 72 000 $", "note": "CR-01 déjà facturé et payé."},
+  ],
+  "cross": "Contrat, CR-01, charte et factures. CR-04 est écarté à cause de son statut de brouillon.",
+  "uncertainty": "Le rapport de statut ne dit pas quel plafond il utilise (180 000 $ ou 204 000 $). Aucun bon de commande n'est documenté, seulement des factures.",
+ },
+]

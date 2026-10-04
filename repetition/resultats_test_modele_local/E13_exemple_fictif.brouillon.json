@@ -1,0 +1,50 @@
+{
+  "id": "U-01",
+  "received_at": "",
+  "event_date": "2026-10-01",
+  "source": {
+    "file": "09_Evenement/E13_exemple_fictif.eml",
+    "loc": "l. 11-23",
+    "quote": "La build 2026.10.01 est déployée en validation ce matin. Elle inclut le correctif ACC-303 : nos tests clavier passent, le bouton Enregistrer est atteint avec Tab. Le runbook final, avec la procédure de retour arrière, vous sera envoyé vendredi. De notre côté, les conditions accessibilité et exploitation sont donc réglées. Nous proposons de confirmer le 22 octobre comme date ferme de mise en production. Amélie, le jalon 3 est livré : merci de libérer INV-003 au complet."
+  },
+  "summary": "Boréal Numérique propose de confirmer le 22 octobre comme date ferme de mise en production et a livré le correctif ACC-303.",
+  "problem_status": "ACC-303 fermé par Mélissa le 1 octobre; runbook livré mais pas approuvé.",
+  "prior_decision": "22 octobre approuvé le 10 sept., sous les trois conditions du 26 sept.",
+  "new_proposal": "Fournisseur propose de confirmer le 22 octobre comme date ferme de mise en production; Amélie Fortin doit libérer INV-003 au complet.",
+  "affected_facts": [
+    {
+      "ref": "Q01 / D-01",
+      "before": "15 octobre",
+      "after": "22 octobre",
+      "evidence": "E13_exemple_fictif.eml, l. 15"
+    }
+  ],
+  "affected_actions": [
+    {
+      "ref": "A-02",
+      "change": "modifiée",
+      "evidence": "E13_exemple_fictif.eml, l. 11"
+    },
+    {
+      "ref": "A-03",
+      "change": "modifiée",
+      "evidence": "E13_exemple_fictif.eml, l. 11"
+    },
+    {
+      "ref": "A-06",
+      "change": "modifiée",
+      "evidence": "E13_exemple_fictif.eml, l. 17"
+    }
+  ],
+  "new_actions": [
+    {
+      "id": "A-14",
+      "title": "Libérer INV-003 au complet",
+      "owner": "Amélie Fortin (proposé)",
+      "due": "à confirmer",
+      "evidence": "E13_exemple_fictif.eml, l. 17"
+    }
+  ],
+  "unchanged": "Les autres conditions de go-live restent ouvertes; aucune approbation n'est inventée; le baseline du 30 sept. est conservé.",
+  "uncertainty": "La date de validation exacte du runbook n'est pas donnée."
+}
